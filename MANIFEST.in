@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include sapphire_customization *.css
+recursive-include sapphire_customization *.csv
+recursive-include sapphire_customization *.html
+recursive-include sapphire_customization *.ico
+recursive-include sapphire_customization *.js
+recursive-include sapphire_customization *.json
+recursive-include sapphire_customization *.md
+recursive-include sapphire_customization *.png
+recursive-include sapphire_customization *.py
+recursive-include sapphire_customization *.svg
+recursive-include sapphire_customization *.txt
+recursive-exclude sapphire_customization *.pyc
