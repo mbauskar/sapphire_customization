@@ -66,34 +66,40 @@ app_version = "0.0.1"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	# "*": {
+	# 	"on_update": "method",
+	# 	"on_cancel": "method",
+	# 	"on_trash": "method"
+	# },
+	"Sales Order": {
+		"on_submit": "sapphire_customization.sapphire_customization.custom_methods.sales_order_negative_sales_alert"
+	},
+	"Purchase Receipt": {
+		"on_submit": "sapphire_customization.sapphire_customization.custom_methods.purchase_receipt_submit"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"sapphire_customization.tasks.all"
-# 	],
-# 	"daily": [
-# 		"sapphire_customization.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"sapphire_customization.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"sapphire_customization.tasks.weekly"
-# 	]
-# 	"monthly": [
-# 		"sapphire_customization.tasks.monthly"
-# 	]
-# }
+scheduler_events = {
+	"all": [
+		"sapphire_customization.sapphire_customization.doctype.notification_setting.credit_days_notification.check_period"
+	],
+	# "daily": [
+	# 	"sapphire_customization.tasks.daily"
+	# ],
+	# "hourly": [
+	# 	"sapphire_customization.tasks.hourly"
+	# ],
+	# "weekly": [
+	# 	"sapphire_customization.tasks.weekly"
+	# ]
+	# "monthly": [
+	# 	"sapphire_customization.tasks.monthly"
+	# ]
+}
 
 # Testing
 # -------
