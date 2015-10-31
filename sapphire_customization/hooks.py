@@ -73,10 +73,10 @@ doc_events = {
 	# 	"on_trash": "method"
 	# },
 	"Sales Order": {
-		"on_submit": "sapphire_customization.sapphire_customization.custom_methods.sales_order_negative_sales_alert"
+		"on_submit": "sapphire_customization.custom_methods.sales_order_negative_sales_alert"
 	},
 	"Purchase Receipt": {
-		"on_submit": "sapphire_customization.sapphire_customization.custom_methods.purchase_receipt_submit"
+		"on_submit": "sapphire_customization.custom_methods.purchase_receipt_submit"
 	}
 }
 
@@ -113,3 +113,4 @@ scheduler_events = {
 # 	"frappe.desk.doctype.event.event.get_events": "sapphire_customization.event.get_events"
 # }
 
+fixtures = ["Custom Field"]

@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import flt, cint, cstr
 
 def sales_order_negative_sales_alert(doc, method):
 	"""
@@ -14,7 +15,7 @@ def sales_order_negative_sales_alert(doc, method):
 				and warehouse = '%(warehouse)s' 
 			order by pr.modified desc 
 			limit 2
-		)foo """%{'item_code':d.item_code, 'warehouse':d.reserved_warehouse},as_list=1, debug=1)
+		)foo """%{'item_code':d.item_code, 'warehouse':d.warehouse},as_list=1)
 
 		if(d.rate < flt(cost_price[0][0])):
 			item_dict.setdefault(d.item_code, {})
@@ -54,11 +55,11 @@ def sales_order_negative_sales_alert(doc, method):
 					</tr>"""
 			tab_rows1 = """<tr><td>%(item_code)s</td></tr>"""
 
-			for item in items:
-				rows += tab_rows%items[item]
+			for item in item_dict:
+				rows += tab_rows%item_dict[item]
 
-			for item in items:
-				rows1 += tab_rows1%items[item]
+			for item in item_dict:
+				rows1 += tab_rows1%item_dict[item]
 
 			b=frappe.session['user']
 			query="select role from `tabUserRole` where role='System Manager' and parent ='"+b+"'"
@@ -67,7 +68,7 @@ def sales_order_negative_sales_alert(doc, method):
 				msgprint("Sales Order have negative profit for follwing Items,\n %s\n Please contact 'System Manager' to submit this 'Sales Order'"%(rows1))
 				raise Exception
 			else:
-				frappe.sendmail([p[0] for p in prof], subject='Items sold below Cost Price', msg = message%{'name':doc.name, 'customer': doc.customer, 'rows': rows})
+				frappe.sendmail([p[0] for p in prof], subject='Items sold below Cost Price', message=message%{'name':doc.name, 'customer': doc.customer, 'rows': rows})
 
 def purchase_receipt_submit(doc, method):
 	generate_warranty_code(doc)
@@ -76,7 +77,7 @@ def generate_warranty_code(doc):
 	import string
 	import random
 	for item in doc.items:
-		has_warranty_code=frappe.db.sql("""select has_warranty_code from tabItem where name='%s'"""%(item.item_code),as_dict=1,debug=1)
+		has_warranty_code=frappe.db.sql("""select has_warranty_code from tabItem where name='%s'"""%(item.item_code),as_dict=1)
 		if has_warranty_code:
 			if has_warranty_code[0]['has_warranty_code']=='Yes':
 				if item.serial_no:
@@ -115,7 +116,7 @@ def get_invoice_info(sales_order):
 		ch.date = getdate(inv['creation'])
 		ch.invoice_number = inv['name']
 		ch.invoice_value = inv['grand_total']
-		ageing=frappe.db.sql("""select DATEDIFF(now(),'%s') AS age"""%(inv['creation']),as_dict=1,debug=1)
+		ageing=frappe.db.sql("""select DATEDIFF(now(),'%s') AS age"""%(inv['creation']),as_dict=1)
 		
 		if ageing:
 			ch.payment_mode=ageing[0]['age']

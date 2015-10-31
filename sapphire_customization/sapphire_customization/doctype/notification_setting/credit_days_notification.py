@@ -77,7 +77,7 @@ def send_mail(msg, customer_email):
 	cust_emails = validate_customer_mail(customer_email.split(','))
 	email_ids = get_emails(cust_emails)
 	for i in range(0,cint(frappe.db.get_value('Notification Setting', None, 'frequency'))):
-		frappe.sendmail(email_ids, subject="Payment Reminder", msg = msg)
+		frappe.sendmail(email_ids, subject="Payment Reminder", message = msg)
 
 def validate_customer_mail(cust_emails):
 	emails = []
