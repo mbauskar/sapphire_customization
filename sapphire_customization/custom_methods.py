@@ -68,7 +68,9 @@ def sales_order_negative_sales_alert(doc, method):
 				msgprint("Sales Order have negative profit for follwing Items,\n %s\n Please contact 'System Manager' to submit this 'Sales Order'"%(rows1))
 				raise Exception
 			else:
-				frappe.sendmail([p[0] for p in prof], subject='Items sold below Cost Price', message=message%{'name':doc.name, 'customer': doc.customer, 'rows': rows})
+				frappe.errprint(prof)
+				if prof:
+					frappe.sendmail([p[0] for p in prof], subject='Items sold below Cost Price', message=message%{'name':doc.name, 'customer': doc.customer, 'rows': rows})
 
 def purchase_receipt_submit(doc, method):
 	generate_warranty_code(doc)
