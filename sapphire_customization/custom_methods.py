@@ -62,7 +62,7 @@ def sales_order_negative_sales_alert(doc, method):
 				rows1 += tab_rows1%item_dict[item]
 
 			b=frappe.session['user']
-			query="select role from `tabUserRole` where role='System Manager' and parent ='"+b+"'"
+			query="select role from `tabUserRole` where role in ('System Manager','CRM Manager') and parent ='"+b+"'"
 			res=frappe.db.sql(query)
 			if not res:
 				frappe.msgprint("Sales Order have negative profit for follwing Items,\n %s\n Please contact 'System Manager' to submit this 'Sales Order'"%(rows1))
